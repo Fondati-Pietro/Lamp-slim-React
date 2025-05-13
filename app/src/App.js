@@ -26,7 +26,7 @@ function App() {
   return (
     <div className="App">
       {alunni.length > 0 && !loading ? (
-        <AlunniTable alunni={alunni} caricaAlunni={caricaAlunni}/>
+        <AlunniTable alunni={alunni} caricaAlunni={caricaAlunni} />
       ) : (
         <>
           {loading ? (
