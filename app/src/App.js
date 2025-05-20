@@ -51,7 +51,7 @@ function App() {
     <div className="App">
       {alunni.length > 0 && !loading ? (
         <div>
-          <AlunniTable alunni={alunni} caricaAlunni={caricaAlunni} />
+          <AlunniTable alunni={alunni} caricaAlunni={caricaAlunni} salvAlunni={salvAlunni}/>
           {inserisci ? (
             <div>
               <h5>nome : </h5> <input onChange={(e) => setNome(e.target.value)} type="text"></input> 
