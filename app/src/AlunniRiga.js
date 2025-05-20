@@ -5,44 +5,31 @@ export default function AlunniRiga(props) {
   const caricaAlunni = props.caricaAlunni;
   const [modifica, setModifica] = useState(false);
   const [confermaElimina, setConfermaElimina] = useState(false);
-  const [confermaModifica, setConfermaModifica] = useState(false);
+  const [nome, setNome] = useState(a.nome);
+  const [cognome, setCognome] = useState(a.cognome);
 
   async function eliminAlunno() {
-    const data = await fetch(`http://localhost:8080/alunni/${a.id}`, {
-      method: "delete",
+    await fetch(`http://localhost:8080/alunni/${a.id}`, {
+      method: "DELETE",
     });
     caricaAlunni();
   }
 
-  function insModifiche() {
-    <div>
-      <div>
-        <h5>nome : </h5>
-        <input onChange={(e) => a.setNome(e.target.value)} type="text"></input>
-        <h5>cognome : </h5>
-        <input onChange={(e) => a.setCognome(e.target.value)} type="text"></input>
-        <br />
-        <button onClick={modificAlunno}>SALVA</button>
-        <br />
-        <button onClick={() => setModifica(false)}>ANNULLA</button>
-      </div>
-    </div>
-  }
-
-  async function modificAlunno(){
-    const data = await fetch(`http://localhost:8080/alunni/${a.id}`, {
-      method: "put",
+  async function modificAlunno() {
+    await fetch(`http://localhost:8080/alunni/${a.id}`, {
+      method: "PUT",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ nome: a.nome, cognome: a.cognome }),
+      body: JSON.stringify({ nome: nome, cognome: cognome }),
     });
+    setModifica(false);
     caricaAlunni();
   }
 
   return (
     <tr>
       <td>{a.id}</td>
-      <td>{a.nome}</td>
-      <td>{a.cognome}</td>
+      <td>{modifica ? <input value={nome} onChange={(e) => setNome(e.target.value)} /> : a.nome}</td>
+      <td>{modifica ? <input value={cognome} onChange={(e) => setCognome(e.target.value)} /> : a.cognome}</td>
       <td>
         {confermaElimina ? (
           <div>
@@ -55,14 +42,13 @@ export default function AlunniRiga(props) {
         )}
       </td>
       <td>
-        {confermaModifica ? (
+        {modifica ? (
           <div>
-            Sei sicuro?
-            <button onClick={insModifiche}>SI</button>
-            <button onClick={() => setConfermaModifica(false)}>NO</button>
+            <button onClick={modificAlunno}>SALVA</button>
+            <button onClick={() => setModifica(false)}>ANNULLA</button>
           </div>
         ) : (
-          <button onClick={() => setConfermaModifica(true)}>Modifica</button>
+          <button onClick={() => setModifica(true)}>Modifica</button>
         )}
       </td>
     </tr>
